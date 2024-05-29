@@ -1,0 +1,29 @@
+GET http://127.0.0.1:8000/items HTTP/1.1
+
+### 
+
+GET http://127.0.0.1:8000/items?skip=2&limit=2 HTTP/1.1
+
+### 
+
+GET http://127.0.0.1:8000/items/1 HTTP/1.1
+
+###
+
+POST http://127.0.0.1:8000/items HTTP/1.1
+content-type: application/json
+  
+{
+    "name": "VGA",
+    "quantity": 2
+}
+
+###
+
+PUT http://127.0.0.1:8000/items/1 HTTP/1.1
+content-type: application/json
+  
+{
+    "name": "Updated name",
+    "quantity": 0
+}
