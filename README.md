@@ -1,8 +1,11 @@
 # Python and fastAPI
 
 ## Install deps
-- go to lesson folder
-- run: `pip install -r requirements.txt`
+- go to lesson folder: `cd lessons`
+- create virtual environement: `python -m venv venv`
+- activate virtual environement: `venv\Scripts\activate`
+- install dependencies: `pip install -r requirements.txt`
+- run fastapi app: `fastapi dev MAINFILEPATH` example: `fastapi dev main.py`
 
 ## Types
 
@@ -26,14 +29,9 @@
   ```
 - metadata: `def say_hello(name: Annotated[str, "this is just metadata"]) -> str:`
 
-## Install steps
-- belépés a lessons mappába (ha van, és kell a külön mappa)
-- python -m venv venv
-- venv\Scripts\activate
-
 
 ## Docs
-- uvicors: [https://www.uvicorn.org/](https://www.uvicorn.org/)
+- uvicorn: [https://www.uvicorn.org/](https://www.uvicorn.org/)
 - semver: [https://semver.org/](https://semver.org/)
 - pydantic: [https://docs.pydantic.dev/latest/](https://docs.pydantic.dev/latest/)
 - fastAPI: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
