@@ -1,5 +1,9 @@
 # Python and fastAPI
 
+## Install deps
+- go to lesson folder
+- run: `pip install -r requirements.txt`
+
 ## Types
 
 - int
