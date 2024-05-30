@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+from typing import Annotated, List
+from fastapi import APIRouter, FastAPI, HTTPException, Query
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -10,34 +11,41 @@ class Item(BaseModel):
     quantity: int
 
 
-items: list[Item] = [
+items: List[Item] = [
     Item(id=1, name="laptop", quantity=3),
     Item(id=2, name="phone", quantity=2),
     Item(id=3, name="tablet", quantity=8),
     Item(id=4, name="monitor", quantity=12),
 ]
 
-
-@app.get("/")
-def home():
-    return "Hello World"
-
-
-@app.get("/about")
-def home():
-    return {"message": "About"}
-
-
 # query params
 # http://127.0.0.1:8000/items?skip=2&limit=2
 # R = read All
-@app.get("/items")
-def get_items(skip: int = 0, limit: int = 10):
-    return items[skip : skip + limit]
+# @router.get("/items")
+# def get_items(skip: int = 0, limit: int = 10):
+#     return items[skip : skip + limit]
+
+router = APIRouter(prefix="/items", tags=["Items"])
+
+
+# /items?name=mo
+# /items
+@router.get("/")
+def get_items(
+    skip: int = 0,
+    limit: int = 10,
+    name: Annotated[str | None, Query(max_length=20)] = None,
+):
+    if name:
+        # best if you extend this
+        result_items = [item for item in items if name in item.name]
+    else:
+        result_items = items
+    return result_items[skip : skip + limit]
 
 
 # R = read One
-@app.get("/items/{item_id}")
+@router.get("/{item_id}")
 def get_items(item_id: int):
     for item in items:
         if item.id == item_id:
@@ -46,7 +54,7 @@ def get_items(item_id: int):
 
 
 # C = Create
-@app.post("/items")
+@router.post("/")
 def create_item(item: Item):
     if not item.id:
         # if last item id is the greatest
@@ -58,7 +66,7 @@ def create_item(item: Item):
 
 
 # U = Update
-@app.put("/items/{item_id}")
+@router.put("/{item_id}")
 def update_item(item_id: int, item: Item):
     for index, list_item in enumerate(items):
         if list_item.id == item_id:
@@ -70,10 +78,13 @@ def update_item(item_id: int, item: Item):
 
 
 # D = Delete
-@app.delete("/items/{item_id}")
+@router.delete("/{item_id}")
 def delete_item(item_id: int):
     for index, item in enumerate(items):
         if item.id == item_id:
             del items[index]
             return
     raise HTTPException(status_code=404, detail="Item not found")
+
+
+app.include_router(router)

@@ -32,12 +32,23 @@
 
 ## Docs
 - uvicorn: [https://www.uvicorn.org/](https://www.uvicorn.org/)
+- hypercorn: uvicorn altrnative [https://hypercorn.readthedocs.io/en/latest/index.html](https://hypercorn.readthedocs.io/en/latest/index.html)
 - semver: [https://semver.org/](https://semver.org/)
 - pydantic: [https://docs.pydantic.dev/latest/](https://docs.pydantic.dev/latest/)
 - fastAPI: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
+- RESTful API: [https://restfulapi.net/resource-naming/](https://restfulapi.net/resource-naming/)
+- fastAPI best practices [https://github.com/zhanymkanov/fastapi-best-practices](https://github.com/zhanymkanov/fastapi-best-practices)
+- Twelve factor app [https://12factor.net/](https://12factor.net/)
+
 
 ## Other tools and "things"
-- hypercorn: uvicorn altrnative [https://hypercorn.readthedocs.io/en/latest/index.html](https://hypercorn.readthedocs.io/en/latest/index.html)
 - Pypi [https://pypi.org/](https://pypi.org/)
 - Színes, szagos powershell: [https://ohmyposh.dev/](https://ohmyposh.dev/)
 - Win package manager: [https://community.chocolatey.org/](https://community.chocolatey.org/)
+
+## Scaling
+- Scaling [https://fastapi.tiangolo.com/deployment/server-workers/](https://fastapi.tiangolo.com/deployment/server-workers/)
+- use uvicorn workers: `uvicorn main:app --workers 17`
+- `main:app` main.py -> app, main module, azon belül az app
+- workers number: best cpu cores * 2 + 1
+  on linux you can use `guvicorn` and you can configure thread (--thread) too
