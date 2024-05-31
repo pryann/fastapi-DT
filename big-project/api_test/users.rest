@@ -1,8 +1,10 @@
 GET http://localhost:8000/users HTTP/1.1
+Cookie: access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJqb2huZG9lNEBkb21haW4uY29tIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MTcxNzAyOTN9.Xeq3tz3yf1oLtYEVmlbw-b5rKsTYylvl9i4ajnHej1Q
 
 ###
 
 GET http://localhost:8000/users/1 HTTP/1.1
+
 
 ###
 
@@ -10,17 +12,21 @@ POST http://localhost:8000/users HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "johndoe4",
+  "username": "johndoe5",
   "email": "johndoe4@domain.com",
-  "password": "password"
+  "password": "Password1@"
 }
 
 ###
 
-PUT http://localhost:8000/users/4 HTTP/1.1
+PUT http://localhost:8000/users/3 HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "johndoethenew",
-  "email": "johndoethenew@domain.com"
+  "username": "johndoethenewNEW",
+  "email": "johndoethenewNEW@domain.com"
 }
+
+###
+
+DELETE http://localhost:8000/users/4 HTTP/1.1

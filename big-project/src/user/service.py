@@ -9,7 +9,6 @@ from src.exceptions import NotFoundError, AlreadyExistsError
 # you can add salt too, in this case you need to write your own pass_hash function
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
 def hash_password(password: str):
     return pwd_context.hash(password)
 
@@ -34,28 +33,45 @@ def get_user(user_id: int, db: Session):
 
 
 def create_user(user: user_schemas.UserCreate, db: Session):
-    is_exists = user_crud.if_user_exists(user.username, user.email, db)
+    is_exists = user_crud.if_user_exists_with_username_or_email(
+        user.username, user.email, db)
     if is_exists:
         raise AlreadyExistsError("User already exists")
     user.password = hash_password(user.password)
     return user_crud.create_user(user, db)
 
 
+# def update_user(user_id: int, user: user_schemas.UserUpdate, db: Session):
+#     db_user = user_crud.get_user_by_id(user_id, db)
+#     if db_user is None:
+#         raise NotFoundError("User not found")
+
+#     is_exists = user_crud.if_user_exists_with_username_or_email(
+#         user.username, user.email, db)
+#     if is_exists:
+#         raise AlreadyExistsError(
+#             f"Username ({user.username}) or email address ({user.email}) alredy exists")
+
+#     return user_crud.update_user(user_id, user, db)
+
+
 def update_user(user_id: int, user: user_schemas.UserUpdate, db: Session):
     db_user = user_crud.get_user_by_id(user_id, db)
     if db_user is None:
-        # use custom error
         raise NotFoundError("User not found")
 
-    is_exists = user_crud.if_user_exists(user.username, user.email, db)
+    is_exists = user_crud.if_user_exists_with_username_or_email(
+        user.username, user.email, db)
     if is_exists:
         raise AlreadyExistsError(
             f"Username ({user.username}) or email address ({user.email}) alredy exists")
 
-    user_data = user.model_dump(exclude_unset=True)
-    for key, value in user_data.items():
-        setattr(db_user, key, value)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+    return user_crud.update_user(db_user, user, db)
+
+
+def delete_user(user_id: int, db: Session):
+    db_user = user_crud.get_user_by_id(user_id, db)
+    if db_user is None:
+        raise NotFoundError("User not found")
+    user_crud.delete_user(user_id, db)
+    return
